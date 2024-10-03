@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600;700&display=swap');
+
+:root {
+    --bg: #2b2625;
+    --description: #a7a7a7;
+    --btn: #171614;
+    --text: #ffffff;
+    --base-font-size: 24px; /* Base font size increased by 150% (16px * 1.5) */
+}
+
+html {
+    font-size: var(--base-font-size);
+}
+
+body {
+    background-color: var(--bg);
+    font-family: 'Inter';
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#title {
+    font-family: 'Inter';
+    color: #ffffff;
+    text-shadow: 0.0625rem 0.0625rem 0.5rem rgba(111, 118, 146, 0.4); /* 1px to rem */
+    transition: text-shadow 0.3s ease-in-out;
+}
+
+div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    color: var(--text);
+    text-shadow: 0.0625rem 0.0625rem 0.5rem rgba(111, 118, 146, 0.4); /* 1px to rem */
+    transition: text-shadow 0.3s ease-in-out;
+}
+
+input[type="number"] {
+    width: 9.375rem; /* 150px to rem */
+    padding: 0.625rem; /* 10px to rem */
+    margin: 0.625rem; /* 10px to rem */
+    font-size: 1rem; /* 16px to rem */
+    border: 0; /* 0px to rem */
+    border-radius: 0.3125rem; /* 5px to rem */
+    color: var(--text);
+    background-color: var(--btn);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5); /* 2px and 4px to rem */
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+input[type="number"]:focus {
+    outline: none;
+    box-shadow: 0 0 0.5rem rgba(111, 118, 146, 0.4); /* 8px to rem */
+}
+
+/* Remove default spin buttons */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
