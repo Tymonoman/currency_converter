@@ -5,36 +5,26 @@
     --description: #a7a7a7;
     --btn: #171614;
     --text: #ffffff;
-    --base-font-size: 24px; /* Base font size increased by 150% (16px * 1.5) */
+    --base-font-size: 24px;
 }
 
 html {
     font-size: var(--base-font-size);
+    overflow: hidden; /* Hide scrollbar */
 }
 
 body {
     background-color: var(--bg);
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-#title {
-    font-family: 'Inter';
-    color: #ffffff;
-    text-shadow: 0.0625rem 0.0625rem 0.5rem rgba(111, 118, 146, 0.4); /* 1px to rem */
-    transition: text-shadow 0.3s ease-in-out;
-}
-
-div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+    color: var(--text);
+    overflow: hidden; /* Hide scrollbar */
 }
 
 .wrapper {
@@ -42,18 +32,33 @@ div {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    padding: 10px;
 }
 
-h2 {
+#title {
+    font-family: 'Inter', sans-serif;
     color: var(--text);
-    text-shadow: 0.0625rem 0.0625rem 0.5rem rgba(111, 118, 146, 0.4); /* 1px to rem */
+    text-shadow: 1px 1px 8px rgba(111, 118, 146, 0.4);
     transition: text-shadow 0.3s ease-in-out;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+div {
+    margin-bottom: 5px; /* Reduced margin to make the boxes more compact */
+}
+
+div h2 {
+    margin-bottom: 2px; /* Smaller margin below the currency name */
+    padding-bottom: 2px; /* Smaller padding below the currency name */
 }
 
 input[type="number"] {
-    width: 9.375rem; /* 150px to rem */
-    padding: 0.625rem; /* 10px to rem */
-    margin: 0.625rem; /* 10px to rem */
+    width: 8.75rem; /* 140px to rem */
+    padding: 0.3125rem; /* 5px to rem */
+    margin: 0.3125rem 0 0 0; /* 5px to rem, only top margin */
     font-size: 1rem; /* 16px to rem */
     border: 0; /* 0px to rem */
     border-radius: 0.3125rem; /* 5px to rem */
@@ -61,17 +66,108 @@ input[type="number"] {
     background-color: var(--btn);
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5); /* 2px and 4px to rem */
     transition: box-shadow 0.3s ease-in-out;
+    text-align: center; /* Center the numbers inside the input fields */
 }
 
-input[type="number"]:focus {
-    outline: none;
-    box-shadow: 0 0 0.5rem rgba(111, 118, 146, 0.4); /* 8px to rem */
+/* Hide input arrows on Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
-/* Remove default spin buttons */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+/* Hide input arrows on Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
+/* Footer styling */
+footer {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: var(--description);
+}
+
+/* Media Queries */
+
+/* Small devices (phones, 600px and down) */
+@media (max-width: 600px) {
+    :root {
+        --base-font-size: 16px;
+    }
+
+    html {
+        font-size: var(--base-font-size);
+    }
+
+    body {
+        padding: 5px;
+    }
+
+    #title {
+        font-size: 1.2rem;
+    }
+
+    div {
+        width: 100%;
+    }
+
+    .wrapper {
+        width: 100%;
+    }
+}
+
+/* Medium devices (tablets, 600px to 768px) */
+@media (min-width: 601px) and (max-width: 768px) {
+    :root {
+        --base-font-size: 20px;
+    }
+
+    html {
+        font-size: var(--base-font-size);
+    }
+
+    body {
+        padding: 10px;
+    }
+
+    #title {
+        font-size: 1.5rem;
+    }
+
+    div {
+        width: 80%;
+    }
+
+    .wrapper {
+        width: 80%;
+    }
+}
+
+/* Large devices (desktops, 768px and up) */
+@media (min-width: 769px) {
+    :root {
+        --base-font-size: 24px;
+    }
+
+    html {
+        font-size: var(--base-font-size);
+    }
+
+    body {
+        padding: 15px;
+    }
+
+    #title {
+        font-size: 2rem;
+    }
+
+    div {
+        width: 60%;
+    }
+
+    .wrapper {
+        width: 60%;
+    }
+}
