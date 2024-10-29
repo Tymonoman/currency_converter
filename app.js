@@ -1,9 +1,9 @@
 const apiKey = "8c863104fc53446aa859a1b06dccf539";
 const baseCurrency = 'USD';
-const targetCurrencies = ['EUR', 'PLN', 'GBP', 'BTC', 'XMR', 'XRP'];
+const targetCurrencies = ['EUR', 'PLN', 'GBP', 'BTC', 'ETH', 'XMR', 'XRP'];
 
 const fiatApiUrl = `https://open.er-api.com/v6/latest/${baseCurrency}?apikey=${apiKey}`;
-const cryptoApiUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,monero,ripple&vs_currencies=usd,eur,pln,gbp';
+const cryptoApiUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,monero,ripple&vs_currencies=usd,eur,pln,gbp';
 
 let cachedRates = null;
 
@@ -21,6 +21,7 @@ async function fetchExchangeRates() {
             cachedRates = {
                 ...fiatData.rates,
                 BTC: cryptoData.bitcoin,
+                ETH: cryptoData.ethereum,
                 XMR: cryptoData.monero,
                 XRP: cryptoData.ripple
             };
@@ -43,6 +44,7 @@ function updateCurrencies(amount, baseCurrency) {
     const plnInput = document.getElementById('pln');
     const gbpInput = document.getElementById('gbp');
     const btcInput = document.getElementById('btc');
+    const ethInput = document.getElementById('eth');
     const xmrInput = document.getElementById('xmr');
     const xrpInput = document.getElementById('xrp');
 
@@ -51,10 +53,11 @@ function updateCurrencies(amount, baseCurrency) {
     const plnRate = cachedRates['PLN'];
     const gbpRate = cachedRates['GBP'];
     const btcRates = cachedRates['BTC'];
+    const ethRates = cachedRates['ETH'];
     const xmrRates = cachedRates['XMR'];
     const xrpRates = cachedRates['XRP'];
 
-    let usdValue, eurValue, plnValue, gbpValue, btcValue, xmrValue, xrpValue;
+    let usdValue, eurValue, plnValue, gbpValue, btcValue, ethValue, xmrValue, xrpValue;
 
     switch (baseCurrency) {
         case 'USD':
@@ -63,6 +66,7 @@ function updateCurrencies(amount, baseCurrency) {
             plnValue = amount * (plnRate / usdRate);
             gbpValue = amount * (gbpRate / usdRate);
             btcValue = amount / btcRates.usd;
+            ethValue = amount / ethRates.usd;
             xmrValue = amount / xmrRates.usd;
             xrpValue = amount / xrpRates.usd;
             break;
@@ -72,6 +76,7 @@ function updateCurrencies(amount, baseCurrency) {
             plnValue = amount * (plnRate / eurRate);
             gbpValue = amount * (gbpRate / eurRate);
             btcValue = (amount * (usdRate / eurRate)) / btcRates.usd;
+            ethValue = (amount * (usdRate / eurRate)) / ethRates.usd;
             xmrValue = (amount * (usdRate / eurRate)) / xmrRates.usd;
             xrpValue = (amount * (usdRate / eurRate)) / xrpRates.usd;
             break;
@@ -81,6 +86,7 @@ function updateCurrencies(amount, baseCurrency) {
             plnValue = amount;
             gbpValue = amount * (gbpRate / plnRate);
             btcValue = (amount * (usdRate / plnRate)) / btcRates.usd;
+            ethValue = (amount * (usdRate / plnRate)) / ethRates.usd;
             xmrValue = (amount * (usdRate / plnRate)) / xmrRates.usd;
             xrpValue = (amount * (usdRate / plnRate)) / xrpRates.usd;
             break;
@@ -90,6 +96,7 @@ function updateCurrencies(amount, baseCurrency) {
             plnValue = amount * (plnRate / gbpRate);
             gbpValue = amount;
             btcValue = (amount * (usdRate / gbpRate)) / btcRates.usd;
+            ethValue = (amount * (usdRate / gbpRate)) / ethRates.usd;
             xmrValue = (amount * (usdRate / gbpRate)) / xmrRates.usd;
             xrpValue = (amount * (usdRate / gbpRate)) / xrpRates.usd;
             break;
@@ -99,8 +106,19 @@ function updateCurrencies(amount, baseCurrency) {
             plnValue = (amount * btcRates.pln);
             gbpValue = (amount * btcRates.gbp);
             btcValue = amount;
+            ethValue = (amount * btcRates.usd) / ethRates.usd;
             xmrValue = (amount * btcRates.usd) / xmrRates.usd;
             xrpValue = (amount * btcRates.usd) / xrpRates.usd;
+            break;
+        case 'ETH':
+            usdValue = amount * ethRates.usd;
+            eurValue = (amount * ethRates.eur);
+            plnValue = (amount * ethRates.pln);
+            gbpValue = (amount * ethRates.gbp);
+            btcValue = (amount * ethRates.usd) / btcRates.usd;
+            ethValue = amount;
+            xmrValue = (amount * ethRates.usd) / xmrRates.usd;
+            xrpValue = (amount * ethRates.usd) / xrpRates.usd;
             break;
         case 'XMR':
             usdValue = amount * xmrRates.usd;
@@ -108,6 +126,7 @@ function updateCurrencies(amount, baseCurrency) {
             plnValue = (amount * xmrRates.pln);
             gbpValue = (amount * xmrRates.gbp);
             btcValue = (amount * xmrRates.usd) / btcRates.usd;
+            ethValue = (amount * xmrRates.usd) / ethRates.usd;
             xmrValue = amount;
             xrpValue = (amount * xmrRates.usd) / xrpRates.usd;
             break;
@@ -117,6 +136,7 @@ function updateCurrencies(amount, baseCurrency) {
             plnValue = (amount * xrpRates.pln);
             gbpValue = (amount * xrpRates.gbp);
             btcValue = (amount * xrpRates.usd) / btcRates.usd;
+            ethValue = (amount * xrpRates.usd) / ethRates.usd;
             xmrValue = (amount * xrpRates.usd) / xmrRates.usd;
             xrpValue = amount;
             break;
@@ -138,6 +158,9 @@ function updateCurrencies(amount, baseCurrency) {
     }
     if (document.activeElement !== btcInput) {
         btcInput.value = btcValue.toFixed(8);
+    }
+    if (document.activeElement !== ethInput) {
+        ethInput.value = ethValue.toFixed(8);
     }
     if (document.activeElement !== xmrInput) {
         xmrInput.value = xmrValue.toFixed(8);
@@ -180,6 +203,13 @@ document.getElementById('btc').addEventListener('input', function (event) {
     const amount = parseFloat(event.target.value);
     if (!isNaN(amount)) {
         updateCurrencies(amount, 'BTC');
+    }
+});
+
+document.getElementById('eth').addEventListener('input', function (event) {
+    const amount = parseFloat(event.target.value);
+    if (!isNaN(amount)) {
+        updateCurrencies(amount, 'ETH');
     }
 });
 
